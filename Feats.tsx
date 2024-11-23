@@ -12,9 +12,9 @@ const Feats = ({ navigation }) => {
   const { theme } = useContext(ThemeContext);
 
   const [searchText, setSearchText] = useState('');
-  const [selectedCR, setSelectedCR] = useState(null);
-  const [selectedType, setSelectedType] = useState(null);
-  const [selectedEnvironment, setSelectedEnvironment] = useState(null);
+  const [selectedCR, setSelectedCR] = useState('All');
+  const [selectedType, setSelectedType] = useState('All');
+  const [selectedEnvironment, setSelectedEnvironment] = useState('All');
   const [selectedFeat, setSelectedFeat] = useState(null);
 
   const crOptions = [0.25, 1, 2, 5, 10, 20, 24];
@@ -37,15 +37,15 @@ const Feats = ({ navigation }) => {
       );
     }
 
-    if (selectedCR !== null) {
+    if (selectedCR !== 'All') {
       filtered = filtered.filter((feat) => feat.cr === selectedCR);
     }
 
-    if (selectedType) {
+    if (selectedType !== 'All') {
       filtered = filtered.filter((feat) => feat.type === selectedType);
     }
 
-    if (selectedEnvironment) {
+    if (selectedEnvironment !== 'All') {
       filtered = filtered.filter((feat) => feat.environment === selectedEnvironment);
     }
 
@@ -86,7 +86,7 @@ const Feats = ({ navigation }) => {
           style={styles.pickerItems}
           onValueChange={(value) => setSelectedType(value)}
         >
-          <Picker.Item label={t('Type')} value={null} />
+          <Picker.Item label={t('Type')} value={'All'} />
           {typeOptions.map((type) => (
             <Picker.Item key={type} label={t(type)} value={type} />
           ))}
@@ -97,7 +97,7 @@ const Feats = ({ navigation }) => {
           style={styles.pickerItems}
           onValueChange={(value) => setSelectedCR(value)}
         >
-          <Picker.Item label={t('CR')} value={null} />
+          <Picker.Item label={t('CR')} value={'All'} />
           {crOptions.map((cr) => (
             <Picker.Item key={cr} label={t('CR') + ' ' + cr} value={cr} />
           ))}
@@ -108,7 +108,7 @@ const Feats = ({ navigation }) => {
           style={styles.pickerItems}
           onValueChange={(value) => setSelectedEnvironment(value)}
         >
-          <Picker.Item label={t('Environment')} value={null} />
+          <Picker.Item label={t('Environment')} value={'All'} />
           {environmentOptions.map((env) => (
             <Picker.Item key={env} label={t(env)} value={env} />
           ))}
@@ -116,40 +116,131 @@ const Feats = ({ navigation }) => {
       </View>
 
       <ScrollView style={styles.tableContainer}>
+        <View style={styles.tableHeader}>
+          <Text style={[styles.tableHeaderText]}>{t('Name')}</Text>
+          <Text style={[styles.tableHeaderText]}>{t('Type')}</Text>
+          <Text style={[styles.tableHeaderText]}>{t('CR')}</Text>
+          <Text style={[styles.tableHeaderText]}>{t('Source')}</Text>
+          <Text style={[styles.tableHeaderText]}>{t('Details')}</Text>
+        </View>
         {filteredFeats.length === 0 ? (
           <Text style={styles.noResultsText}>{t('No feats found')}</Text>
         ) : (
           filteredFeats.map((feat, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.tableRow}
-              onPress={() => handleFeatPress(feat)}
-            >
+            <View key={index} style={styles.tableRow}>
               <Text style={styles.tableCell}>{feat.name}</Text>
-              <Text style={styles.tableCell}>{t('CR')}: {feat.cr}</Text>
-              <Text style={styles.tableCell}>{t('Type')}: {feat.type}</Text>
-              <Text style={styles.tableCell}>{t('Environment')}: {feat.environment}</Text>
-            </TouchableOpacity>
+              <Text style={styles.tableCell}>{feat.type}</Text>
+              <Text style={styles.tableCell}>{feat.cr}</Text>
+              <Text style={styles.tableCell}>{feat.source}</Text>
+              <TouchableOpacity
+                style={[styles.tableCell, styles.actionsColumn]}
+                onPress={() => handleFeatPress(feat)}
+              >
+                <Text style={styles.actionText}>{t('Details')}</Text>
+              </TouchableOpacity>
+            </View>
           ))
         )}
       </ScrollView>
 
       <Modal visible={!!selectedFeat} transparent={true} animationType="slide" onRequestClose={closeFeatModal}>
-        <View style={styles.modalOverlayItems}>
-          <View style={styles.itemModal}>
-            <Text style={styles.itemTitle}>{selectedFeat?.name}</Text>
-            <Text style={styles.itemDescription}>
-              {selectedFeat?.description}
-            </Text>
-            <Text style={styles.itemDetails}>
-              {t('CR')}: {selectedFeat?.cr} | {t('Type')}: {selectedFeat?.type} | {t('Environment')}: {selectedFeat?.environment}
-            </Text>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContentFeats}>
+
+            <View style={styles.featsContainerColumn}>
+          <View style={styles.additionalInfoTitle}>
+            <Text style={styles.modalSubTitleFeats}>{selectedFeat?.name}</Text>
+            </View>
+          <View style={styles.additionalInfoTitle}>
+            <Text style={styles.modalSubTitleFeats}>{t('CR')}: {selectedFeat?.cr}</Text>
+            </View>
+          <View style={styles.additionalInfoTitle}>
+            <Text style={styles.modalSubTitleFeats}>{t('Initiative')}: {selectedFeat?.initiative}</Text>
+            </View>
+            </View>
+
+
+            <View style={styles.rowContainer}>
+              {selectedFeat?.image && (
+                <ImageBackground source={{ uri: selectedFeat.image }} style={styles.modalImage} />
+              )}
+
+              <View style={styles.infoColumn}>
+                <View style={styles.statsRow}>
+                  <View style={styles.statCircle}>
+                    <Text style={styles.statValue}>{t('HP')}</Text>
+                    <Text style={styles.statValue}>{selectedFeat?.hp}</Text>
+                  </View>
+                  <View style={styles.statCircle}>
+                    <Text style={styles.statValue}>{t('AC')}</Text>
+                    <Text style={styles.statValue}>{selectedFeat?.ac}</Text>
+                  </View>
+                </View>
+          <View style={styles.additionalInfo}>
+                <Text style={styles.featStatSmall}>{selectedFeat?.type}</Text>
+              </View>
+          <View style={styles.additionalInfo}>
+                <Text style={styles.featStatSmall}>{selectedFeat?.alignment}</Text>
+              </View>
+          <View style={styles.additionalInfo}>
+                <Text style={styles.featStatSmall}>{t('Speed')}: {selectedFeat?.speed}</Text>
+              </View>
+              </View>
+            </View>
+
+
+            <View style={styles.statsContainerFeatsB}>
+            <View style={styles.statsContainerFeatsA}>
+              {['strbonus', 'dexbonus', 'conbonus', 'intbonus', 'wisbonus', 'chabonus'].map((statbonus) => (
+                <View key={statbonus} style={styles.statBlock}>
+                  <Text style={styles.statValue}>{selectedFeat?.[statbonus]}</Text>
+                </View>
+              ))}
+            </View>
+            <View style={styles.statsContainerFeats}>
+              {['str', 'dex', 'con', 'int', 'wis', 'cha'].map((stat) => (
+                <View key={stat} style={styles.statBlock}>
+                  <Text style={styles.statLabel}>{stat.toUpperCase()}: {selectedFeat?.[stat]}</Text>
+                </View>
+              ))}
+            </View>
+            </View>
+
+          <View style={styles.additionalInfo}>
+            <Text style={styles.actionDescription}>{t('Skills')}: {selectedFeat?.skills}</Text>
+          </View>
+          <View style={styles.additionalInfo}>
+            <Text style={styles.actionDescription}>{t('Senses')}: {selectedFeat?.senses}</Text>
+          </View>
+          <View style={styles.additionalInfo}>
+            <Text style={styles.actionDescription}>{t('Languages')}: {selectedFeat?.languages}</Text>
+          </View>
+
+          <View style={styles.additionalInfo}>
+            {selectedFeat?.actions.map((action, index) => (
+              <View key={index} style={styles.actionContainerFeats}>
+                <Text style={styles.actionName}>{t('Actions')}: {action.name}</Text>
+                <Text style={styles.actionDescription}>{action.description}</Text>
+              </View>
+            ))}
+          </View>
+
+          <View style={styles.additionalInfo}>
+            {selectedFeat?.features.map((feature, index) => (
+              <View key={index} style={styles.featureContainerFeats}>
+                <Text style={styles.featureName}>{t('Features')}: {feature.name}</Text>
+                <Text style={styles.featureDescription}>{feature.description}</Text>
+              </View>
+            ))}
+          </View>
+
             <TouchableOpacity onPress={closeFeatModal} style={styles.closeButtonItem}>
               <Text style={styles.closeButtonText}>{t('Close')}</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
+
     </ImageBackground>
   );
 };

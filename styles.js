@@ -1551,6 +1551,143 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
   },
+  modalTitleFeats: {
+    fontSize: 24,
+    color: '#c5c6c9',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  modalSubTitleFeats: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#c5c6c9',
+  },
+  statsContainerFeats: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  statsContainerFeatsA: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 15,
+  },
+  statsContainerFeatsB: {
+    justifyContent: 'space-around',
+    borderWidth: 1,
+    borderColor: '#444',
+    padding: 10,
+    backgroundColor: '#292929',
+  },
+  statBlock: {
+    alignItems: 'center',
+  },
+  additionalInfo: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#444',
+    backgroundColor: '#292929',
+  },
+  additionalInfoTitle: {
+    justifyContent: 'space-around',
+    flex: 1,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#444',
+    backgroundColor: '#292929',
+  },
+  actionName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#c5c6c9',
+  },
+  actionDescription: {
+    fontSize: 14,
+    color: '#c5c6c9',
+  },
+  featureName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#c5c6c9',
+  },
+  featureDescription: {
+    fontSize: 14,
+    color: '#c5c6c9',
+  },
+  sectionTitleFeats: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 15,
+    marginBottom: 5,
+  },
+  modalDetailsFeats: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  actionContainerFeats: {
+    marginBottom: 10,
+  },
+  featureContainerFeats: {
+    marginBottom: 10,
+  },
+  featsContainerColumn:{
+    textAlign: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  statsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: '#444',
+    backgroundColor: '#292929',
+  },
+  statCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 20,
+  },
+  statValue: {
+    fontSize: 16,
+    color: '#c5c6c9',
+    fontWeight: 'bold',
+  },
+  statLabel: {
+    fontSize: 12,
+    color: '#c5c6c9',
+  },
+  featStatSmall: {
+    fontSize: 12,
+    color: '#c5c6c9',
+  },
+  modalImage: {
+    width: '100%',
+    height: 165,
+    width: 165,
+    borderRadius: 10,
+  },
+  modalContentFeats: {
+    backgroundColor: '#333',
+    borderRadius: 10,
+    padding: 20,
+    width: '90%',
+    maxHeight: '80%',
+    overflow: 'hidden',
+  },
+
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  infoColumn: {
+    flex: 1,
+  },
+
   modalTitleSpells: {
     color: '#c5c6c9',
     fontSize: 24,
